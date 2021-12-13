@@ -14,9 +14,10 @@ from menus import inventory_menu
 
 
 class RenderOrder(Enum):
-    CORPSE = 1
-    ITEM = 2
-    ACTOR = 3
+    STAIRS = 1
+    CORPSE = 2
+    ITEM = 3
+    ACTOR = 4
 
 
 def get_names_under_mouse(mouse, entities, fov_map):
