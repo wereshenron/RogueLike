@@ -215,8 +215,6 @@ def play_game(player, entities, game_map, message_log, game_state, con, panel, c
 # In[2]:
 
 
-
-
 def main():
     constants = get_constants()
 
