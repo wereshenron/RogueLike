@@ -25,7 +25,6 @@ def play_game(player, entities, game_map, message_log, game_state, con, panel, c
 
     key = libtcod.Key()
     mouse = libtcod.Mouse()
-
     game_state = GameStates.PLAYERS_TURN
     previous_game_state = game_state
 
@@ -225,8 +224,8 @@ def main():
 
     libtcod.console_init_root(constants['screen_width'], constants['screen_height'], constants['window_title'], False)
 
-    con = libtcod.console_new(constants['screen_width'], constants['screen_height'])
-    panel = libtcod.console_new(constants['screen_width'], constants['panel_height'])
+    con = libtcod.console.Console(constants['screen_width'], constants['screen_height'])
+    panel = libtcod.console.Console(constants['screen_width'], constants['panel_height'])
 
     player = None
     entities = []
