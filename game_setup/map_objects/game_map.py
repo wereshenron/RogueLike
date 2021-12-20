@@ -21,7 +21,6 @@ from map_objects.tile import Tile
 from render_functions import RenderOrder
 
 
-
 class GameMap:
     def __init__(self, width, height, dungeon_level=1):
         self.width = width
@@ -62,7 +61,6 @@ class GameMap:
 
                 # "paint" it to the map's tiles
 
-
                 self.create_room(new_room)
 
                 # center coordinates of new room, will be useful later
@@ -70,7 +68,6 @@ class GameMap:
 
                 center_of_last_room_x = new_x
                 center_of_last_room_y = new_y
-
 
                 if num_rooms == 0:
                     # this is the first room, where the player starts at
@@ -99,6 +96,9 @@ class GameMap:
                 rooms.append(new_room)
                 num_rooms += 1
         stairs_component = Stairs(self.dungeon_level + 1)
+        down_stairs = Entity(center_of_last_room_x, center_of_last_room_y, 'S', libtcod.white,
+                             'Stairs', render_order=RenderOrder.STAIRS, stairs=stairs_component)
+        entities.append(down_stairs)
 
     def create_room(self, room):
         # go through the tiles in the rectangle and make them passable
@@ -175,3 +175,15 @@ class GameMap:
             return True
 
         return False
+
+    def next_floor(self, player, message_log, constants):
+        self.dungeon_level += 1
+        entities = [player]
+        self.tiles = self.initialize_tiles()
+        self.make_map(constants['max_rooms'], constants['room_min_size'], constants['room_max_size'],
+                      constants['map_width'], constants['map_height'],
+                      player, entities, constants['max_monsters_per_room'],
+                      constants['max_items_per_room'])
+        player.fighter.heal(player.fighter.max_hp // 2)
+        message_log.add_message(Message('You take a second to breathe, and move on to the next level', libtcod.light_cyan))
+        return entities
