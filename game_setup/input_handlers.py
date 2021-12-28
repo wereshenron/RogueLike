@@ -18,14 +18,31 @@ def handle_keys(key, game_state):
         return handle_targeting_keys(key)
     elif game_state in (GameStates.SHOW_INVENTORY, GameStates.DROP_INVENTORY):
         return handle_inventory_keys(key)
+    elif game_state == GameStates.LEVEL_UP:
+        return handle_level_up(key)
 
     return {}
+
 
 def handle_targeting_keys(key):
     if key.vk == libtcod.KEY_ESCAPE:
         return {'exit': True}
 
     return {}
+
+
+def handle_level_up(key):
+    if key:
+        key_chr = chr(key.c)
+
+        if key_chr == 'v':
+            return {'level_up': 'hp'}
+        elif key_chr == 's':
+            return {'level_up': 'str'}
+        elif key_chr == 'p':
+            return {'level_up': 'def'}
+    return {}
+
 
 def handle_player_turn_keys(key):
     key_char = chr(key.c)
@@ -40,7 +57,7 @@ def handle_player_turn_keys(key):
     elif key.vk == libtcod.KEY_RIGHT or key_char == 'l':
         return {'move': (1, 0)}
     elif key.vk == libtcod.KEY_ENTER:
-        return {'take_stairs' : True}
+        return {'take_stairs': True}
     elif key_char == 'y':
         return {'move': (-1, -1)}
     elif key_char == 'u':
@@ -85,6 +102,7 @@ def handle_player_dead_keys(key):
 
     return {}
 
+
 def handle_mouse(mouse):
     (x, y) = (mouse.cx, mouse.cy)
 
@@ -95,16 +113,17 @@ def handle_mouse(mouse):
 
     return {}
 
+
 def handle_main_menu(key):
     key_char = chr(key.c)
- 
+
     if key_char == 'a':
         return {'new_game': True}
     elif key_char == 'b':
         return {'load_game': True}
-    elif key_char == 'c' or  key.vk == libtcod.KEY_ESCAPE:
+    elif key_char == 'c' or key.vk == libtcod.KEY_ESCAPE:
         return {'exit': True}
- 
+
     return {}
 
 
