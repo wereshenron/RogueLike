@@ -45,7 +45,7 @@ def get_constants():
     fov_radius = 15
 
     max_monsters_per_room = 3
-    max_items_per_room = 3
+    max_items_per_room = 2
 
     colors = {
         'dark_wall': libtcod.Color(0, 0, 100),

@@ -99,6 +99,7 @@ def play_game(player, entities, game_map, message_log, game_state, con, panel, c
         if drop_inventory:
             previous_game_state = game_state
             game_state = GameStates.DROP_INVENTORY
+            game_state = GameStates.DROP_INVENTORY
 
         if inventory_index is not None and previous_game_state != GameStates.PLAYER_DEAD and inventory_index < len(
                 player.inventory.items):
