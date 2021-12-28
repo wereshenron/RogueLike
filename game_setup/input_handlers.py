@@ -35,11 +35,11 @@ def handle_level_up(key):
     if key:
         key_chr = chr(key.c)
 
-        if key_chr == 'v':
+        if key_chr == 'a':
             return {'level_up': 'hp'}
-        elif key_chr == 's':
+        elif key_chr == 'b':
             return {'level_up': 'str'}
-        elif key_chr == 'p':
+        elif key_chr == 'c':
             return {'level_up': 'def'}
     return {}
 
