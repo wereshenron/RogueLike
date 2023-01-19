@@ -132,19 +132,19 @@ class GameMap:
             # Check if an entity is already in that location
             if not any([entity for entity in entities if entity.x == x and entity.y == y]):
                 if randint(0, 100) < 80:
-                    fighter_component = Fighter(hp=10, defense=0, power=3)
+                    fighter_component = Fighter(hp=10, defense=0, power=3,xp=35)
                     ai_component = BasicMonster()
 
                     monster = Entity(x, y, 'o', libtcod.desaturated_green, 'Orc', blocks=True,
                                      render_order=RenderOrder.ACTOR, fighter=fighter_component, ai=ai_component)
 
                 elif randint(0,100) < 80 and self.dungeon_level >= 3:
-                    fighter_component = Fighter(hp=20, defense=1, power=3)
+                    fighter_component = Fighter(hp=25, defense=2, power=4, xp=150)
                     ai_component = BasicMonster()
                     monster = Entity(x, y, 'G', libtcod.white, 'Ghost', blocks= True, fighter=fighter_component,
                                      render_order=RenderOrder.ACTOR, ai=ai_component)
                 else:
-                    fighter_component = Fighter(hp=16, defense=1, power=4)
+                    fighter_component = Fighter(hp=16, defense=1, power=4, xp=100)
                     ai_component = BasicMonster()
 
                     monster = Entity(x, y, 'T', libtcod.darker_green, 'Troll', blocks=True, fighter=fighter_component,

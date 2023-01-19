@@ -46,6 +46,13 @@ def inventory_menu(con, header, inventory, inventory_width, screen_width, screen
     menu(con, header, options, inventory_width, screen_width, screen_height)
 
 
+def level_up_menu(con, header, player, menu_width, screen_width, screen_height):
+    options = ['Vitality (+15 HP, from {0}'.format(player.fighter.max_hp),
+               'Strength (+1 Attack, from {0}'.format(player.fighter.power),
+               'Protection (+1 Defense, from {0}'.format(player.fighter.defense)]
+    menu(con, header, options, menu_width, screen_width, screen_height)
+
+
 def main_menu(con, background_image, screen_width, screen_height):
     tcod.image_blit_2x(background_image, screen_width, screen_height, 0)
 

@@ -11,8 +11,7 @@ from enum import Enum
 
 from game_states import GameStates
 
-from menus import inventory_menu
-
+from menus import inventory_menu, level_up_menu
 
 
 class RenderOrder(Enum):
@@ -104,6 +103,8 @@ def render_all(con, panel, entities, player, game_map, fov_map, fov_recompute, m
             inventory_title = 'Press the key next to an item to drop it, or Esc to cancel.\n'
 
         inventory_menu(con, inventory_title, player.inventory, 50, screen_width, screen_height)
+    elif game_state == GameStates.LEVEL_UP:
+        level_up_menu(con, 'Level Up! Choose your specialty', player, 40, screen_width, screen_height)
 
 
 def clear_all(con, entities):
