@@ -4,20 +4,20 @@
 # In[ ]:
 
 
-import tcod as libtcod
+import tcod
 
-from components.fighter import Fighter
-from components.inventory import Inventory
-from components.level import Level
+from game_setup.components.fighter import Fighter
+from game_setup.components.inventory import Inventory
+from game_setup.components.level import Level
 
-from entity import Entity
+from game_setup.entity import Entity
 
-from game_messages import MessageLog
+from game_setup.game_messages import MessageLog
 
-from game_states import GameStates
-from map_objects.game_map import GameMap
+from game_setup.game_states import GameStates
+from game_setup.map_objects.game_map import GameMap
 
-from render_functions import RenderOrder
+from game_setup.render_functions import RenderOrder
 
 
 def get_constants():
@@ -49,10 +49,10 @@ def get_constants():
     max_items_per_room = 2
 
     colors = {
-        'dark_wall': libtcod.Color(0, 0, 100),
-        'dark_ground': libtcod.Color(50, 50, 150),
-        'light_wall': libtcod.Color(130, 110, 50),
-        'light_ground': libtcod.Color(200, 180, 50)
+        'dark_wall': tcod.Color(0, 0, 100),
+        'dark_ground': tcod.Color(50, 50, 150),
+        'light_wall': tcod.Color(130, 110, 50),
+        'light_ground': tcod.Color(200, 180, 50)
     }
 
     constants = {
@@ -85,7 +85,7 @@ def get_game_variables(constants):
     fighter_component = Fighter(hp=30, defense=5, power=5)
     inventory_component = Inventory(26)
     level_component = Level()
-    player = Entity(0, 0, '@', libtcod.white, 'Player', blocks=True, render_order=RenderOrder.ACTOR,
+    player = Entity(0, 0, '@', tcod.white, 'Player', blocks=True, render_order=RenderOrder.ACTOR,
                     fighter=fighter_component, inventory=inventory_component, level= level_component)
     entities = [player]
 

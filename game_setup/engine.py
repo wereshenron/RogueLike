@@ -5,7 +5,7 @@
 from components.fighter import Fighter
 from components.level import Level
 from death_functions import kill_monster, kill_player
-import tcod as libtcod
+import tcod
 
 from death_functions import kill_monster, kill_player
 from entity import get_blocking_entities_at_location
@@ -24,15 +24,15 @@ def play_game(player, entities, game_map, message_log, game_state, con, panel, c
 
     fov_map = initialize_fov(game_map)
 
-    key = libtcod.Key()
-    mouse = libtcod.Mouse()
+    key = tcod.Key()
+    mouse = tcod.Mouse()
     game_state = GameStates.PLAYERS_TURN
     previous_game_state = game_state
 
     targeting_item = None
 
-    while not libtcod.console_is_window_closed():
-        libtcod.sys_check_for_event(libtcod.EVENT_KEY_PRESS | libtcod.EVENT_MOUSE, key, mouse)
+    while not tcod.console_is_window_closed():
+        tcod.sys_check_for_event(tcod.EVENT_KEY_PRESS | tcod.EVENT_MOUSE, key, mouse)
 
         if fov_recompute:
             recompute_fov(fov_map, player.x, player.y, constants['fov_radius'], constants['fov_light_walls'],
@@ -44,7 +44,7 @@ def play_game(player, entities, game_map, message_log, game_state, con, panel, c
 
         fov_recompute = False
 
-        libtcod.console_flush()
+        tcod.console_flush()
 
         clear_all(con, entities)
 
@@ -92,7 +92,7 @@ def play_game(player, entities, game_map, message_log, game_state, con, panel, c
 
                     break
             else:
-                message_log.add_message(Message('There is nothing here to pick up.', libtcod.yellow))
+                message_log.add_message(Message('There is nothing here to pick up.', tcod.yellow))
 
         if show_inventory:
             previous_game_state = game_state
@@ -117,12 +117,12 @@ def play_game(player, entities, game_map, message_log, game_state, con, panel, c
                     entities = game_map.next_floor(player, message_log, constants)
                     fov_map = initialize_fov(game_map)
                     fov_recompute = True
-                    libtcod.console_clear(con)
+                    tcod.console_clear(con)
 
                     break
 
             else:
-                message_log.add_message(Message("There are no stairs here", libtcod.yellow))
+                message_log.add_message(Message("There are no stairs here", tcod.yellow))
         if level_up:
             if level_up == 'hp':
                 player.fighter.max_hp += 20
@@ -153,7 +153,7 @@ def play_game(player, entities, game_map, message_log, game_state, con, panel, c
                 return True
 
         if fullscreen:
-            libtcod.console_set_fullscreen(not libtcod.console_is_fullscreen())
+            tcod.console_set_fullscreen(not tcod.console_is_fullscreen())
 
         for player_turn_result in player_turn_results:
             message = player_turn_result.get('message')
@@ -208,7 +208,7 @@ def play_game(player, entities, game_map, message_log, game_state, con, panel, c
                 if leveled_up:
                     message_log.add_message(Message(
                         'Your battle skills grow stronger! You reached level {0}'.format(
-                            player.level.current_level) + '!', libtcod.yellow))
+                            player.level.current_level) + '!', tcod.yellow))
                     previous_game_state = game_state
                     game_state = GameStates.LEVEL_UP
         if game_state == GameStates.ENEMY_TURN:
@@ -252,12 +252,12 @@ def play_game(player, entities, game_map, message_log, game_state, con, panel, c
 def main():
     constants = get_constants()
 
-    libtcod.console_set_custom_font('arial10x10.png', libtcod.FONT_TYPE_GREYSCALE | libtcod.FONT_LAYOUT_TCOD)
+    tcod.console_set_custom_font('arial10x10.png', tcod.FONT_TYPE_GREYSCALE | tcod.FONT_LAYOUT_TCOD)
 
-    libtcod.console_init_root(constants['screen_width'], constants['screen_height'], constants['window_title'], False)
+    tcod.console_init_root(constants['screen_width'], constants['screen_height'], constants['window_title'], False)
 
-    con = libtcod.console.Console(constants['screen_width'], constants['screen_height'])
-    panel = libtcod.console.Console(constants['screen_width'], constants['panel_height'])
+    con = tcod.console.Console(constants['screen_width'], constants['screen_height'])
+    panel = tcod.console.Console(constants['screen_width'], constants['panel_height'])
 
     player = None
     entities = []
@@ -268,13 +268,13 @@ def main():
     show_main_menu = True
     show_load_error_message = False
 
-    main_menu_background_image = libtcod.image_load('background.png')
+    main_menu_background_image = tcod.image_load('background.png')
 
-    key = libtcod.Key()
-    mouse = libtcod.Mouse()
+    key = tcod.Key()
+    mouse = tcod.Mouse()
 
-    while not libtcod.console_is_window_closed():
-        libtcod.sys_check_for_event(libtcod.EVENT_KEY_PRESS | libtcod.EVENT_MOUSE, key, mouse)
+    while not tcod.console_is_window_closed():
+        tcod.sys_check_for_event(tcod.EVENT_KEY_PRESS | tcod.EVENT_MOUSE, key, mouse)
 
         if show_main_menu:
             main_menu(con, main_menu_background_image, constants['screen_width'],
@@ -283,7 +283,7 @@ def main():
             if show_load_error_message:
                 message_box(con, 'No save game to load', 50, constants['screen_width'], constants['screen_height'])
 
-            libtcod.console_flush()
+            tcod.console_flush()
 
             action = handle_main_menu(key)
 
@@ -308,7 +308,7 @@ def main():
                 break
 
         else:
-            libtcod.console_clear(con)
+            tcod.console_clear(con)
             play_game(player, entities, game_map, message_log, game_state, con, panel, constants)
 
             show_main_menu = True

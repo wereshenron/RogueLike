@@ -3,22 +3,22 @@
 
 # In[ ]:
 
-import tcod as libtcod
+import tcod
 from random import randint
 
-from components.ai import BasicMonster
-from components.fighter import Fighter
-from components.item import Item
-from components.stairs import Stairs
+from ..components.ai import BasicMonster
+from ..components.fighter import Fighter
+from ..components.item import Item
+from ..components.stairs import Stairs
 
-from entity import Entity
-from game_messages import Message
-from item_functions import cast_fireball, cast_lightning, heal
+from ..entity import Entity
+from ..game_messages import Message
+from ..item_functions import cast_fireball, cast_lightning, heal
 
-from map_objects.rectangle import Rect
-from map_objects.tile import Tile
+from ..map_objects.rectangle import Rect
+from ..map_objects.tile import Tile
 
-from render_functions import RenderOrder
+from ..render_functions import RenderOrder
 
 
 class GameMap:
@@ -96,7 +96,7 @@ class GameMap:
                 rooms.append(new_room)
                 num_rooms += 1
         stairs_component = Stairs(self.dungeon_level + 1)
-        down_stairs = Entity(center_of_last_room_x, center_of_last_room_y, 'S', libtcod.white,
+        down_stairs = Entity(center_of_last_room_x, center_of_last_room_y, 'S', tcod.white,
                              'Stairs', render_order=RenderOrder.STAIRS, stairs=stairs_component)
         entities.append(down_stairs)
 
@@ -135,19 +135,19 @@ class GameMap:
                     fighter_component = Fighter(hp=10, defense=0, power=3,xp=35)
                     ai_component = BasicMonster()
 
-                    monster = Entity(x, y, 'o', libtcod.desaturated_green, 'Orc', blocks=True,
+                    monster = Entity(x, y, 'o', tcod.desaturated_green, 'Orc', blocks=True,
                                      render_order=RenderOrder.ACTOR, fighter=fighter_component, ai=ai_component)
 
                 elif randint(0,100) < 80 and self.dungeon_level >= 3:
                     fighter_component = Fighter(hp=25, defense=2, power=4, xp=150)
                     ai_component = BasicMonster()
-                    monster = Entity(x, y, 'G', libtcod.white, 'Ghost', blocks= True, fighter=fighter_component,
+                    monster = Entity(x, y, 'G', tcod.white, 'Ghost', blocks= True, fighter=fighter_component,
                                      render_order=RenderOrder.ACTOR, ai=ai_component)
                 else:
                     fighter_component = Fighter(hp=16, defense=1, power=4, xp=100)
                     ai_component = BasicMonster()
 
-                    monster = Entity(x, y, 'T', libtcod.darker_green, 'Troll', blocks=True, fighter=fighter_component,
+                    monster = Entity(x, y, 'T', tcod.darker_green, 'Troll', blocks=True, fighter=fighter_component,
                                      render_order=RenderOrder.ACTOR, ai=ai_component)
 
                 entities.append(monster)
@@ -160,18 +160,18 @@ class GameMap:
                 item_chance = randint(0, 100)
                 if item_chance < 70:
                     item_component = Item(use_function=heal, amount=7)
-                    item = Entity(x, y, '!', libtcod.violet, 'Healing Potion', render_order=RenderOrder.ITEM,
+                    item = Entity(x, y, '!', tcod.violet, 'Healing Potion', render_order=RenderOrder.ITEM,
                                   item=item_component)
 
                 elif item_chance < 90:
                     item_component = Item(use_function=cast_fireball, targeting=True, targeting_message=Message(
-                        'Left-click a target tile for the fireball, or right-click to cancel.', libtcod.light_cyan),
+                        'Left-click a target tile for the fireball, or right-click to cancel.', tcod.light_cyan),
                                           damage=12, radius=3)
-                    item = Entity(x, y, 'F', libtcod.red, 'Fireball Scroll', render_order=RenderOrder.ITEM,
+                    item = Entity(x, y, 'F', tcod.red, 'Fireball Scroll', render_order=RenderOrder.ITEM,
                                   item=item_component)
                 else:
                     item_component = Item(use_function=cast_lightning, damage=20, maximum_range=5)
-                    item = Entity(x, y, '#', libtcod.yellow, 'Lightning Scroll', render_order=RenderOrder.ITEM,
+                    item = Entity(x, y, '#', tcod.yellow, 'Lightning Scroll', render_order=RenderOrder.ITEM,
                                   item=item_component)
 
                 entities.append(item)
@@ -191,5 +191,5 @@ class GameMap:
                       player, entities, constants['max_monsters_per_room'],
                       constants['max_items_per_room'])
         player.fighter.heal(player.fighter.max_hp // 2)
-        message_log.add_message(Message('You take a second to breathe, and move on to the next level', libtcod.light_cyan))
+        message_log.add_message(Message('You take a second to breathe, and move on to the next level', tcod.light_cyan))
         return entities

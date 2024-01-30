@@ -7,7 +7,7 @@ import tcod
 
 import math
 
-from render_functions import RenderOrder
+from game_setup.render_functions import RenderOrder
 
 
 class Entity:
